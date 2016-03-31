@@ -72,3 +72,4 @@ optional description.
 ## Additional Resources
 
 * [Hashids](http://hashids.org/python/). These may be useful for creating short URLs.
+* [Testing Docs](https://docs.djangoproject.com/en/1.9/topics/testing/tools/)
