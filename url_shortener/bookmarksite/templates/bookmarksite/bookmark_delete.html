@@ -1,0 +1,15 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+    <h1>Bookmarks</h1>
+<form action="{% url 'bookmark_delete' bookmark.id %}" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm" />
+</form>
+
+
+{% endblock %}
+
