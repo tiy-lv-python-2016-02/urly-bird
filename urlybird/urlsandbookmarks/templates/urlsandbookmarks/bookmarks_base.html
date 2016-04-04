@@ -1,0 +1,33 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Urlybird{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="{% block allbookmarksactive %}{% endblock %}"><a href="{% url 'bookmark_list' %}">Bookmarks</a></li>
+  <li role="presentation" class="{% block allusersactive %}{% endblock %}"><a href="{% url 'user_list' %}">Users</a></li>
+</ul>
+            {% if user.is_authenticated %}
+
+            <p align="center">
+            <a href="{% url 'dashboard' %}">dashboard</a>
+            ||
+            <a href="{% url 'logout' %}">sign out</a>
+
+            {% else %}
+                <p align="center"><a href="{% url "login" %}">login</a> ||
+                                  <a href="{% url 'register' %}">register</a>
+                </p>
+
+            {% endif %}
+
+    {% block content %}
+    {%  endblock %}
+</body>
+</html>

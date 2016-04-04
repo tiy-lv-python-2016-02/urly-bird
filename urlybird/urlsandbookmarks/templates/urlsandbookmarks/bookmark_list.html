@@ -1,0 +1,19 @@
+{% extends "urlsandbookmarks/bookmarks_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+{% block allbookmarksactive %}active{% endblock %}
+{% block content %}
+        <h1>Bookmarks</h1>
+        <p>
+        {% for bookmark in bookmark_list %}
+            <a href="{% url 'bookmark_detail' bookmark.id %}">
+            {{ bookmark.title }}
+            </a>
+            <small>-- {{ bookmark.user }}</small>
+        </p>
+        {% endfor %}
+        <h2>Create new bookmark</h2>
+        <a href="{% url 'bookmark_create' %}">new bookmark</a>
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends 'profile/profile_base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}UrlyBird User {{ user.username }}{% endblock %}
+
+{% block content %}
+
+        <h4>Your Bookmarks</h4>
+
+        {% for bookmark in bookmark_list %}
+            <p>
+            <a href="{% url 'bookmark_detail' bookmark.id %}">
+            {{ bookmark.title }}
+            </a>
+            <small> ||
+            <a href="{% url 'bookmark_update' bookmark.id %}">update</a>
+            ||
+            <a href="{% url 'bookmark_delete' bookmark.id %}">delete</a>
+            || </small>
+            </p>
+        {% endfor %}
+        <h4>Create new bookmark</h4>
+        <a href="{% url 'bookmark_create' %}">new bookmark</a>
+
+{% endblock %}

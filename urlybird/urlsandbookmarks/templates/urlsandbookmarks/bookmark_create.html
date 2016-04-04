@@ -1,0 +1,14 @@
+{% extends "urlsandbookmarks/bookmarks_base.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        creating bookmark as {{ user.username }}
+    {% endif %}
+    <h1>Create Bookmark</h1>
+    <form method="post" action="{% url "bookmark_create" %}" class="form">
+        {% csrf_token %}
+        {{ form.as_ul }}
+        <input type="submit" name="submit" value="submit">
+    </form>
+
+{% endblock %}
