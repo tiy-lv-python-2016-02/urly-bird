@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from bookmarksite.views import BookmarkDetail, BookmarkCreate, BookmarkList,\
-    BookmarkUpdate, BookmarkDelete, RerouteLink
+    BookmarkUpdate, BookmarkDelete
 
 
 urlpatterns = [
@@ -12,6 +12,4 @@ urlpatterns = [
         name="bookmark_update"),
     url(r'^delete/(?P<pk>\d+)/$', BookmarkDelete.as_view(),
         name="bookmark_delete"),
-    # url(r'^redirect/(?P<id>\d+)/$', RerouteLink.as_view(),
-    #     name="view_reroute"),
 ]

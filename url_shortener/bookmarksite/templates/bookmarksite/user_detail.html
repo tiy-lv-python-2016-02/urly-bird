@@ -4,8 +4,13 @@
 {% block title %}Bookmark List{% endblock %}
 
 {% block content %}
-<h1>{{ user.username }}</h1>
-
+<h1>{{ profiled_user.username }}</h1>
+<a href="{% url 'bookmark_list' %}">Return To Bookmark List</a>
+    {% if user_match %}
+    <p>
+    <a href="{% url 'user_stats' user.id %}">Statistics Page</a>
+    </p>
+    {% endif %}
 <ul class="list-group">
     {% for bookmark in bookmarks %}
         <br>
@@ -23,5 +28,5 @@
 </ul>
 
 
-
+{% bootstrap_pagination page_obj %}
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+    {{ user.username }}
+<h1>Bookmark Statistics</h1>
+    <h4>Most clicked bookmarks from the past 30 days</h4>
+
+<ul class="list-group">
+{% for bookmark in bookmarks %}
+  <li class="list-group-item">
+    <span class="badge">{{ bookmark.month_count }}</span>
+    <a href="{% url 'bookmark_detail' bookmark.id %}"> {{ bookmark.title }}</a>
+  </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

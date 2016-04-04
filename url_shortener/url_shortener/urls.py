@@ -24,8 +24,6 @@ from profiles.views import RegisterUser
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^b/(?P<id>\d+)/$', RerouteLink.as_view(),
-    #     name="view_reroute"),
     url(r'^b/(?P<hash_id>\w+)/$', RerouteLink.as_view(),
         name="view_reroute"),
     url(r'^bookmarks/', include("bookmarksite.urls")),

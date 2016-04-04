@@ -7,8 +7,12 @@ from django.views.generic import DetailView, CreateView, ListView, UpdateView,\
 
 from bookmarksite.models import Bookmark, Click
 from bookmarksite.forms import BookmarkForm
-from profiles.models import Profile
 from hashids import Hashids
+
+import datetime
+
+from django.utils import timezone
+from django.db.models import Count
 
 
 class BookmarkList(ListView):
@@ -16,7 +20,7 @@ class BookmarkList(ListView):
     queryset = Bookmark.objects.order_by("-modified_at")
     template_name = "bookmarksite/bookmark_list.html"
     context_object_name = "bookmarks"
-    paginate_by = 3
+    paginate_by = 5
 
 
 class BookmarkDetail(DetailView):
@@ -69,7 +73,10 @@ class RerouteLink(RedirectView):
         hash_val = self.kwargs["hash_id"]
         id_num = hashid.decode(hash_val)[0]
         bookmark = get_object_or_404(Bookmark, pk=id_num)
-        Click.objects.create(bookmark=bookmark, user=self.request.user)
+        if self.request.user is User:
+            Click.objects.create(bookmark=bookmark, user=self.request.user)
+        else:
+            Click.objects.create(bookmark=bookmark)
         return bookmark.url
 
 
@@ -79,16 +86,45 @@ class UserList(ListView):
     context_object_name = "users"
 
 
-class UserDetail(DetailView):
-    model = User
+class UserDetail(ListView):
     template_name = "bookmarksite/user_detail.html"
-    context_object_name = "user"
-    #paginate_by = 5
+    context_object_name = "bookmarks"
+    paginate_by = 5
+
+    def get_queryset(self):
+        """
+        Filters bookmarks to those of the user displayed on the page. Sorted
+        with the most recent first.
+        """
+        profiled_user = User.objects.get(pk=self.kwargs['pk'])
+        return Bookmark.objects.filter(
+            user=profiled_user).order_by("-created_at")
 
     def get_context_data(self, **kwargs):
+        """
+        user_match is True if the user displayed on the page is the same
+        user that is visiting the page. This enables the delete/edit options.
+        """
         context = super().get_context_data(**kwargs)
-        context["bookmarks"] = self.object.bookmark_set.all()
-        same_user = self.object == self.request.user
-        context["user_match"] = same_user
+        profiled_user = User.objects.get(pk=self.kwargs['pk'])
+        context["profiled_user"] = profiled_user
+        context["user_match"] = self.request.user == profiled_user
         return context
 
+
+class UserStats(DetailView):
+    model = User
+    template_name = "bookmarksite/user_stats.html"
+    context_object_name = "user"
+
+    def get_context_data(self, **kwargs):
+        """
+        Bookmark are sorted by the number of clicks from the past 30 days.
+        """
+        context = super().get_context_data(**kwargs)
+        one_month_ago = timezone.now() - datetime.timedelta(days=30)
+
+        context["bookmarks"] = self.object.bookmark_set.filter(
+            click__created_at__gt=one_month_ago).annotate(
+            num_count=Count('click')).order_by('-num_count')
+        return context
