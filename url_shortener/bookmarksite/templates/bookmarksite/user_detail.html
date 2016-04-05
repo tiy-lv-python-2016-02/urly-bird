@@ -1,0 +1,37 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+<h1>{{ profiled_user.username }}</h1>
+
+
+    <img src="{{ profiled_user.profile.image.url }}" height="100" width="100">
+
+
+<a href="{% url 'bookmark_list' %}">Return To Bookmark List</a>
+    {% if user_match %}
+    <p>
+    <a href="{% url 'user_stats' user.id %}">Statistics Page</a>
+    <div><a href="{% url 'update_profile' user.id %}">update profile</a> </div>
+    {% endif %}
+<ul class="list-group">
+    {% for bookmark in bookmarks %}
+        <br>
+        <li class="list-group-item list-group-item-success"><a href="{% url 'bookmark_detail' bookmark.id %}">{{ bookmark.title }}</a></li>
+        {% if bookmark.description %}
+            <li class="list-group-item">Description: {{ bookmark.description }}</li>
+        {% endif %}
+        <li class="list-group-item"><a href="{% url 'view_reroute' bookmark.hash_id %}">{{ bookmark.short_url }}</a></li>
+        {% if user_match %}
+        <a href="{% url 'bookmark_delete' bookmark.id %}">Delete</a>
+        <a href="{% url 'bookmark_update' bookmark.id %}">Update</a>
+        {% endif %}
+        <br>
+{% endfor %}
+</ul>
+
+
+{% bootstrap_pagination page_obj %}
+{% endblock %}

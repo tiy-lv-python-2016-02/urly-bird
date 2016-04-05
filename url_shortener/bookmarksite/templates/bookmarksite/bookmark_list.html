@@ -1,0 +1,45 @@
+
+
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+
+
+    {% if user.is_authenticated %}
+        <h4>Welcome <a href="{% url 'user_detail' user.id %}">{{ user.username }}</a> </h4>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <h4>Welcome Guest</h4>
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Signup</a>
+    {% endif %}
+
+    <h1>Urlybird Bookmark List</h1>
+    <h5>Click on a bookmark name for more information, click on the user list to see a list of profile pages.</h5>
+        {% if user.is_authenticated %}
+        <div><a href="{% url 'bookmark_create' %}">Add new bookmark</a> </div>
+            <div><a href="{% url 'update_profile' user.id %}">update profile</a> </div>
+        {% endif %}
+        <div><a href="{% url 'user_list' %}">View User List</a> </div>
+    <br>
+        {% if bookmarks %}
+        <ul class="list-group">
+            {% for bookmark in bookmarks %}
+                <br>
+                <li class="list-group-item list-group-item-success"><a href="{% url 'bookmark_detail' bookmark.id %}">{{ bookmark.title }}</a></li>
+                {% if bookmark.description %}
+                <li class="list-group-item">Description: {{ bookmark.description }}</li>
+                {% endif %}
+                <li class="list-group-item"><a href="{% url 'view_reroute' bookmark.hash_id %}">{{ bookmark.short_url }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <h2>No bookmarks found</h2>
+        {% endif %}
+
+    {% bootstrap_pagination page_obj %}
+{% endblock %}
+

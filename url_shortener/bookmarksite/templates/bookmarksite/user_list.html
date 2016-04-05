@@ -1,0 +1,19 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+
+    <h1>Urlybird Users</h1>
+    <div class="list-group">
+        {% for user in users %}
+            <p></p>
+            <a href="{% url 'user_detail' user.id %}" class="list-group-item"> {{ user.username }}</a>
+
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

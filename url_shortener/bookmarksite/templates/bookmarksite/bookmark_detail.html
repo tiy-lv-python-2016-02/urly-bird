@@ -1,0 +1,27 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+
+
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-success">{{ bookmark.title }}</li>
+
+
+        {% if bookmark.description %}
+        <li class="list-group-item">description: {{ bookmark.description }}</li>
+        {% endif %}
+        <li class="list-group-item"><a href="{% url 'view_reroute' bookmark.hash_id %}">{{ bookmark.short_url }}</a></li>
+        <li class="list-group-item">{{ bookmark.url }}</li>
+
+    </ul>
+            {% if user_match %}
+            <a href="{% url 'bookmark_delete' bookmark.id %}">Delete</a>
+            <a href="{% url 'bookmark_update' bookmark.id %}">Update</a>
+            {% endif %}
+<h6>Clicks: {{ bookmark.click_count }}</h6>
+<a href="{% url 'bookmark_list' %}">return to bookmark list</a>
+
+{% endblock %}

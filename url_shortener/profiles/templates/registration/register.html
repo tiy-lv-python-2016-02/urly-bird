@@ -1,0 +1,12 @@
+{% extends 'bookmarksite/bookmark_base.html' %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+    <h1>Signup for UrlyBird</h1>
+    <form method="post" action="{% url "register" %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit="Signup" %}{% endbuttons %}
+    </form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "bookmarksite/bookmark_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+<h1>{{ user.username }}</h1>
+
+<div class="list-group">
+    {% for bookmark in bookmarks %}
+        {{ bookmark.title }}
+        {{ bookmark.short_url }}
+
+</div>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load bootstrap3 %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Bookmark{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+</head>
+<body>
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
+    <div>
+        <h5>Most Recent Activity</h5>
+    <ul class="list-group">
+        {% for recent in request.session.recent_bookmarks|slice:"-5:" %}
+        <li class="list-group-item"><a href="{% url 'bookmark_detail' recent.0 %}">{{ recent.1 }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
