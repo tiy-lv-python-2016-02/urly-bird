@@ -5,11 +5,16 @@
 
 {% block content %}
 <h1>{{ profiled_user.username }}</h1>
+
+
+    <img src="{{ profiled_user.profile.image.url }}" height="100" width="100">
+
+
 <a href="{% url 'bookmark_list' %}">Return To Bookmark List</a>
     {% if user_match %}
     <p>
     <a href="{% url 'user_stats' user.id %}">Statistics Page</a>
-    </p>
+    <div><a href="{% url 'update_profile' user.id %}">update profile</a> </div>
     {% endif %}
 <ul class="list-group">
     {% for bookmark in bookmarks %}

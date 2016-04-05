@@ -28,6 +28,13 @@ class BookmarkDetail(DetailView):
     template_name = "bookmarksite/bookmark_detail.html"
     context_object_name = "bookmark"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recent_bookmarks = self.request.session.get("recent_bookmarks", [])
+        recent_bookmarks.append((self.object.id, self.object.title))
+        self.request.session["recent_bookmarks"] = recent_bookmarks
+        return context
+
 
 class BookmarkCreate(LoginRequiredMixin, CreateView):
     model = Bookmark
@@ -73,6 +80,11 @@ class RerouteLink(RedirectView):
         hash_val = self.kwargs["hash_id"]
         id_num = hashid.decode(hash_val)[0]
         bookmark = get_object_or_404(Bookmark, pk=id_num)
+
+        recent_bookmarks = self.request.session.get("recent_bookmarks", [])
+        recent_bookmarks.append((bookmark.id, bookmark.title))
+        self.request.session["recent_bookmarks"] = recent_bookmarks
+
         if self.request.user is User:
             Click.objects.create(bookmark=bookmark, user=self.request.user)
         else:

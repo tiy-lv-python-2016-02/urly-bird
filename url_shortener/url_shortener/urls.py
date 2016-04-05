@@ -17,10 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.views import logout
+from django.conf.urls.static import static
+from django.conf import settings
 
 from bookmarksite.views import RerouteLink
-from profiles.views import RegisterUser
-
+from profiles.views import RegisterUser, UpdateProfile
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,6 +31,8 @@ urlpatterns = [
     url(r'^logout/$', logout, {'next_page': reverse_lazy("bookmark_list")},
         name='logout'),
     url(r'^register/$', RegisterUser.as_view(), name="register"),
+    url(r'^users/update/(?P<id>\d+)/$', UpdateProfile.as_view(),
+        name="update_profile"),
     url(r'^users/', include("profiles.urls")),
     url('^', include('django.contrib.auth.urls')),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

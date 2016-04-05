@@ -15,5 +15,13 @@
     {% block content %}
     {% endblock %}
     </div>
+    <div>
+        <h5>Most Recent Activity</h5>
+    <ul class="list-group">
+        {% for recent in request.session.recent_bookmarks|slice:"-5:" %}
+        <li class="list-group-item"><a href="{% url 'bookmark_detail' recent.0 %}">{{ recent.1 }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
 </body>
 </html>

@@ -21,6 +21,7 @@
     <h5>Click on a bookmark name for more information, click on the user list to see a list of profile pages.</h5>
         {% if user.is_authenticated %}
         <div><a href="{% url 'bookmark_create' %}">Add new bookmark</a> </div>
+            <div><a href="{% url 'update_profile' user.id %}">update profile</a> </div>
         {% endif %}
         <div><a href="{% url 'user_list' %}">View User List</a> </div>
     <br>
