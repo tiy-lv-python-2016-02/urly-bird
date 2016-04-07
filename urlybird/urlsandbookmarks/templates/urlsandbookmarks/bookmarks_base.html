@@ -7,27 +7,43 @@
     <title>{% block title %}Urlybird{% endblock %}</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+
 </head>
-<body>
+<body style="padding: 75px;;">
 <ul class="nav nav-tabs">
   <li role="presentation" class="{% block allbookmarksactive %}{% endblock %}"><a href="{% url 'bookmark_list' %}">Bookmarks</a></li>
   <li role="presentation" class="{% block allusersactive %}{% endblock %}"><a href="{% url 'user_list' %}">Users</a></li>
+<li role="presentation" class="{% block createactive %}{% endblock %}"><a href="{% url 'bookmark_create' %}">Create</a></li>
 </ul>
             {% if user.is_authenticated %}
 
-            <p align="center">
+            <p align="center">[
             <a href="{% url 'dashboard' %}">dashboard</a>
             ||
             <a href="{% url 'logout' %}">sign out</a>
-
+            ]
             {% else %}
-                <p align="center"><a href="{% url "login" %}">login</a> ||
-                                  <a href="{% url 'register' %}">register</a>
+                <p align="center">[<a href="{% url "login" %}">login</a> ||
+                                  <a href="{% url 'register' %}">register</a>]
                 </p>
 
             {% endif %}
 
     {% block content %}
     {%  endblock %}
+    {% block recentmarks %}
+        <p></p>
+        <h3 style="padding-left: 50px;">Recently Clicked Bookmarks</h3>
+        <div class="list-group">
+        <ul style="list-style-type: none;">
+        {% for recentclicked in request.session.visitor_list %}
+            {% for recentid,recenttitle in recentclicked.items %}
+                <li><a href="{% url 'bookmark_detail' recentid %}" class="list-group-item">
+                {{ recenttitle }}</a></li>
+
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    {% endblock %}
 </body>
 </html>

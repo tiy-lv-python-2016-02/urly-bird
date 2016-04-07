@@ -19,6 +19,8 @@ from django.contrib.auth.views import logout
 from django.core.urlresolvers import reverse_lazy
 from profile.views import RegisterUser
 from urlsandbookmarks.views import UrlyLink
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,4 +32,5 @@ urlpatterns = [
         name='logout'),
     url(r'^register/$', RegisterUser.as_view(), name="register"),
     url('^', include('django.contrib.auth.urls'))
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

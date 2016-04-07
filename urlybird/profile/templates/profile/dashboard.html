@@ -5,6 +5,7 @@
 {% block title %}UrlyBird User {{ user.username }}{% endblock %}
 
 {% block content %}
+        <h3>{{ user.username }}'s dashboard</h3>
 
         <h4>Your Bookmarks</h4>
 
@@ -13,14 +14,25 @@
             <a href="{% url 'bookmark_detail' bookmark.id %}">
             {{ bookmark.title }}
             </a>
-            <small> ||
+            <small>[
             <a href="{% url 'bookmark_update' bookmark.id %}">update</a>
             ||
             <a href="{% url 'bookmark_delete' bookmark.id %}">delete</a>
-            || </small>
+            </small>]
             </p>
         {% endfor %}
-        <h4>Create new bookmark</h4>
+    {% bootstrap_pagination page_obj %}
+        <h4>Create New Bookmark</h4>
         <a href="{% url 'bookmark_create' %}">new bookmark</a>
+        <h4>View Your Click Stats</h4>
+        <a href="{% url 'click_stats' %}">stats page</a>
+        <h4>View Your Public Profile</h4>
+        <a href="{% url 'public_profile' user.profile.id %}">{{ user.username }}</a>
+        <h4>Update Profile</h4>
+        <a href="{% url 'profile_update' user.profile.id %}">settings</a>
+        <img src="{{ profile.image.url }}" height="{{ profile.image.height }}" width="{{ profile.image.width }}">
+    <p>{% if user.profile.image %}
+    <img src="{{ user.profile.image.url }}" width=15%>{% endif %}</p>
+
 
 {% endblock %}
