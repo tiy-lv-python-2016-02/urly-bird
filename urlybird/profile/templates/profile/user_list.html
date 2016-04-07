@@ -1,0 +1,23 @@
+{% extends 'urlsandbookmarks/bookmarks_base.html' %}
+
+{% block title %} UrlyBird Users {% endblock %}
+{% block allusersactive %}active{% endblock %}
+{% block content %}
+
+    {% for user in user_list %}
+        <p>
+        <span>
+
+            <a href="{% url "public_profile" user.profile.id %}">
+
+                {{ user.username }}
+                {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" width=1.5%>
+                {% endif %}
+            </a>
+
+        </span>
+        </p>
+    {% endfor %}
+
+{% endblock %}

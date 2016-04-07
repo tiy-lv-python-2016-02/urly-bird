@@ -1,0 +1,17 @@
+{% extends 'profile/profile_base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+    <h2>Update Your Profile</h2>
+    <form method="post" action="{% url "profile_update" profile.id %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" name="submit" value="save">
+    </form>
+
+    <h3>Current Profile Information</h3>
+    <p>interests: {{ user.profile.interests }}</p>
+    {% if user.profile.image %}
+    image: <img src="{{ user.profile.image.url }}" width=10%>
+    {% endif %}
+
+{% endblock %}

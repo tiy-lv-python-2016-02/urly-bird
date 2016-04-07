@@ -1,0 +1,15 @@
+{% extends 'profile/profile_base.html' %}
+{% block content %}
+    <h1>Overall and Last 30 Days Stats</h1>
+    <ol>
+        {% for bookmark in bookmark_list %}
+
+            <li><a href="{% url 'bookmark_detail' bookmark.id %}">
+            {{ bookmark.title }}
+            </a>
+
+            <strong>clicks : </strong>{{ bookmark.click_total }}<small> ({{ bookmark.month_clicks }} in the last 30 days)</small> </li>
+
+        {% endfor %}
+    </ol>
+{% endblock %}

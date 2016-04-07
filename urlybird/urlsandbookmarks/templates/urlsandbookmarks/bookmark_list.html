@@ -1,0 +1,31 @@
+{% extends "urlsandbookmarks/bookmarks_base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}UrlyBird User Created Bookmarks{% endblock %}
+{% block allbookmarksactive %}active{% endblock %}
+{% block content %}
+
+    <p></p><div class="list-group">
+  {% for bookmark in bookmark_list %}<li style="padding-top: 20px;">
+    <h4 class="list-group-item-heading">
+        <a href="{% url 'bookmark_detail' bookmark.id %}">
+        {{ bookmark.title }}
+        </a></h4>
+    <p class="list-group-item-text"><a href="{% url 'urly_redirect' bookmark.get_hash_id %}">
+        127.0.0.1:8000/b/{{ bookmark.get_hash_id }}
+        </a><small>({{ bookmark.click_total }} views)</small></p>
+        <span>{{ bookmark.user.username }}
+
+      {% if bookmark.user.profile.image %}
+        <img src="{{ bookmark.user.profile.image.url }}" width=2%>
+      {% endif %}</span></li>
+
+
+
+
+
+        {% endfor %}</div>
+
+{% bootstrap_pagination page_obj %}
+{% endblock %}
+

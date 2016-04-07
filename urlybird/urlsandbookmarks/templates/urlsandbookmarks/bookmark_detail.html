@@ -1,0 +1,16 @@
+{% extends 'urlsandbookmarks/bookmarks_base.html' %}
+
+{% block content %}
+    <h1>Bookmark Detail</h1>
+    <ul>
+
+        <li><strong>UrlyBird link : </strong><a href="{% url 'urly_redirect' bookmark.get_hash_id %}">127.0.0.1:8000/b/{{ bookmark.get_hash_id }}</a></li>
+        <li><strong>url : </strong><a href="{{ bookmark.url }}">{{ bookmark.url }}</a></li>
+        <li><strong>title : </strong>{{ bookmark.title }}</li>
+        <li><strong>posted by : </strong>{{ bookmark.user.username }}</li>
+        <li><strong>description : </strong>{{ bookmark.description }}</li>
+        <li><strong>created at : </strong>{{ bookmark.created_at }}</li>
+        <li><strong>clicks : </strong>{{ bookmark.click_total }} <small>({{ bookmark.month_clicks }} from the last 30 days)</small></li>
+
+    </ul>
+{% endblock %}
