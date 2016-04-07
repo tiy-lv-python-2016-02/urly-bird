@@ -9,6 +9,11 @@ from urlsandbookmarks.models import Bookmark
 
 
 class Command(BaseCommand):
+    """
+    python manage.py archive_top_20
+    saves the first 20 bookmarks ordered by the highest
+    clicks
+    """
 
     def handle(self, *args, **options):
 
@@ -24,7 +29,3 @@ class Command(BaseCommand):
             for bookmark in qs:
                 writer.writerow([bookmark.title, bookmark.click_total])
 
-
-# Create a command that creates
-# a csv report with the top 20
-# bookmarks in the past 2 days
